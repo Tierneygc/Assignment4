@@ -11,9 +11,9 @@ public class LinearProbingHashST<Key, Value> {
     private Value[] vals;
     private int hashVersion;// the values
 
-    public LinearProbingHashST() {
-        this(INIT_CAPACITY);
-    }
+//    public LinearProbingHashST() {
+//        this(INIT_CAPACITY);
+//    }
 
 
     public LinearProbingHashST(int capacity, int hashVersion) {
@@ -25,8 +25,8 @@ public class LinearProbingHashST<Key, Value> {
 
     }
 
-    public LinearProbingHashST(int initCapacity) {
-    }
+//    public LinearProbingHashST(int initCapacity) {
+//    }
 
     private int hashCode1(Key key){
         int hash = 0;
@@ -69,14 +69,16 @@ public class LinearProbingHashST<Key, Value> {
     // (from Java 7 implementation, protects against poor quality hashCode() implementations)
     private int hash(Key key) {
         if (hashVersion == 1){
-            int h = hashCode1(key);
-            h ^= (h >>> 20) ^ (h >>> 12) ^ (h >>> 7) ^ (h >>> 4);
-            return h & (m-1);
+            return (hashCode1(key) & 0x7fffffff) % m;
+//            int h = hashCode1(key);
+//            h ^= (h >>> 20) ^ (h >>> 12) ^ (h >>> 7) ^ (h >>> 4);
+//            return h & (m-1);
         }
         else{
-            int h = hashCode2(key);
-            h ^= (h >>> 20) ^ (h >>> 12) ^ (h >>> 7) ^ (h >>> 4);
-            return h & (m-1);
+            return (hashCode2(key) & 0x7fffffff) % m;
+//            int h = hashCode2(key);
+//            h ^= (h >>> 20) ^ (h >>> 12) ^ (h >>> 7) ^ (h >>> 4);
+//            return h & (m-1);
         }
 
     }
