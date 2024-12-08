@@ -10,17 +10,23 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Separate Chaining Hash-using hashcode1: ");
+        System.out.println("Separate Chaining Hash: ");
         SeparateChainingHashST<String, Integer> sc = new SeparateChainingHashST<String, Integer>(1000, 1);
+        SeparateChainingHashST<String, Integer> sc2 = new SeparateChainingHashST<String, Integer>(1000, 2);
+        LinearProbingHashST<String, Integer> lp = new LinearProbingHashST<String, Integer>(20000, 1);
+        LinearProbingHashST<String, Integer> lp2 = new LinearProbingHashST<String, Integer>(20000, 2);
 
         String csvFile = "src/Book1.csv";
         String line = "";
         try{
-            BufferedReader br = new BufferedReader(new FileReader("Book1.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("/Users/tierneyclark/IdeaProjects/Assignment4/out/production/Assignment4/Book1.csv"));
             int index = 1;
             while ((line = br.readLine()) != null){
 
                 sc.put(line, index);
+                sc2.put(line, index);
+                lp.put(line, index);
+                lp2.put(line, index);
                 index++;
 
             }
@@ -32,6 +38,7 @@ public class Main {
         }
 
         for (int i = 1; i <= 5; i++){
+            System.out.println();
             System.out.println("Insert password");
             String password = scanner.nextLine();
 
@@ -40,51 +47,50 @@ public class Main {
             int length = password.length();
             if(length < 8){
                 check1 = false;
+
             }
-
-
             //is not a word in the dictionary
-            boolean check2 = sc.contains(password);
+            System.out.println("Separate Chaining Hash: ");
+            boolean sc_check2 = !sc.contains(password);
+            System.out.println("Cost of search(hashcode1): " + sc.counter1);
+            sc.counter1 = 0;
 
+            boolean sc2_check2 = !sc2.contains(password);
+            System.out.println("Cost of search(hashcode2): " + sc2.counter2);
+            sc2.counter2 = 0;
+
+            System.out.println("Linear Probing Hash:");
+            boolean lp_check2 = !lp.contains(password);
+            System.out.println("Cost of search(hashcode1): " + lp.count1);
+            lp.count1 = 0;
+
+            boolean lp2_check2 = !lp2.contains(password);
+            System.out.println("Cost of search(hashcode2): " + lp2.count2);
+            lp2.count2 = 0;
 
             //is not a word in the dictionary followed by a digit 0-9(e.g. hello5)
 
-            boolean check3 = true;
+
             String p = password.substring(0, password.length() - 1);
-            String digit = password.substring(password.length() - 2, password.length() - 1);
-            boolean digitCheck = false;
-            if (digit == "0" || digit == "1" || digit == "2" || digit == "3" || digit == "4" || digit == "5" || digit == "6" || digit == "7" || digit == "8" || digit == "9"){
-                digitCheck = true;
+            boolean sc_check3 = !sc.contains(p);
+
+
+            if (check1 && sc_check2 && sc_check3){
+                System.out.println("Password is strong");
+
             }
 
-            boolean containpassword = sc.contains(p);
-
-            if (containpassword && digitCheck){
-                check3 = false;
+            else {
+                System.out.println("Password is not strong");
             }
-
-
-
-
         }
 
-//        System.out.println("Insert password");
-//        String password1 = scanner.nextLine();
-//        String password2 = scanner.nextLine();
-//        String password3 = scanner.nextLine();
-//        String password4 = scanner.nextLine();
-//        String password5 = scanner.nextLine();
+        System.out.println();
 
-            //LinearProbingHashST<String, Integer> lp = new LinearProbingHashST<String, Integer>(1000, 1);
 
-//        for (int i = 0; !StdIn.isEmpty(); i++) {
-//            String key = StdIn.readString();
-//            st.put(key, i);
-//        }
-//
-//        // print keys
-//        for (String s : st.keys())
-//            StdOut.println(s + " " + st.get(s));
-//    }
+
+        System.out.println();
+
+
     }
 }
